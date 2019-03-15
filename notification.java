@@ -22,7 +22,9 @@ public class notification {
     }
     
     public String getAuditLogs(int t1,int t2) {
-        
+        //if (logTime > t1 && logTime < t2)
+            //return logs
+            
     }
     
     public void sendNotification() {
