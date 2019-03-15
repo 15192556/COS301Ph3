@@ -21,6 +21,10 @@ public class notification {
             contact = database.getPhoneNo(userID);
     }
     
+    public String getAuditLogs(int t1,int t2) {
+        
+    }
+    
     public void sendNotification() {
         if (database.getPrefContact(userID) == "email") {
             try {
