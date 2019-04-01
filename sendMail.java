@@ -1,13 +1,16 @@
 import java.util.Properties;
-import javax.mail.Session;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.Authenticator;
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.PasswordAuthentication;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-//import javax.swing.JOptionPane;
+import javax.mail.internet.MimeMultipart;
 
 public class sendMail 
 {
@@ -37,8 +40,26 @@ public class sendMail
             message.setFrom(new InternetAddress("donotreply@fnbsim.southafricanorth.cloudapp.azure.com"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
-            message.setContent("<p>" + msg + "</p>", "text/html");
 
+            MimeMultipart multipart = new MimeMultipart ("related");
+            
+            BodyPart messageBodyPart = new MimeBodyPart();
+            
+            messageBodyPart.setContent("<br> <img src=\"cid:image\">" 
+                                + "<p>" + msg + "</p>", "text/html");
+            
+            multipart.addBodyPart (messageBodyPart);
+            
+            messageBodyPart = new MimeBodyPart();
+            DataSource fds = new FileDataSource("fnb-logo.jpg");
+            
+            messageBodyPart.setDataHandler (new DataHandler (fds));
+            messageBodyPart.setHeader("Content-ID", "<image>");
+            
+            multipart.addBodyPart (messageBodyPart);
+            
+            message.setContent (multipart);
+            
             Transport.send(message);
             // Log successful sent message
             
