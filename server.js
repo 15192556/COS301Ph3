@@ -39,8 +39,8 @@ app.post('/otp', function (req, res) {
             }
             
             else {
-                const { spawn } = requre ('child_process');
-                const ls = spawn ('java', ['-cp', '":/lib/*"', 'MailTest', 'otp']);
+                const { spawn } = require ('child_process');
+                const ls = exec ('java -cp ":/lib/*" MailTest otp');
                 
                 ls.stdout.on('data', (data)=> {
                     console.log (`stdout: $(data)`);
