@@ -967,7 +967,11 @@ except ApiException as e:
                                 <th>Description</th>
                               </tr>
                                 <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-                                <td> application/json {"clientID":"string", "message":"string"} </td>
+                                <td> application/json {"clientID":"string", "subject":"string", "message":"string"} 
+                                <br> clientID: Client ID as it is defined in the Client Information System Database
+                                <br> subject: Subject line of the eamil
+                                <br> message: Email message body
+                                </td>
                                 </tr>
                                 
                                 
@@ -1251,7 +1255,10 @@ except ApiException as e:
                                 <th>Description</th>
                               </tr>
                                 <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-                                <td> application/json {"clientID":"string", "otp":"string"} </td>
+                                <td> application/json {"clientID":"string", "otp":"string"} 
+                                <br> Client ID: CLient ID as it is defined in the Client Information System database
+                                <br> otp: One Time Pin
+                                </td>
                                 </tr>
                                 
                                 <script>
