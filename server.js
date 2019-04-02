@@ -26,7 +26,7 @@ app.post('/notify', function (req, res) {
             
             else {
                 var exec = require('child_process').exec, child;
-                child = exec('java -cp ":lib/*" MailTest notify', function (error, stdout, stderr) {
+                child = exec('java -cp ":lib/*" Main notify', function (error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log ('stderr: ' + stderr);
 			
@@ -53,7 +53,7 @@ app.post('/otp', function (req, res) {
             
             else {
                 var exec = require('child_process').exec, child;
-                child = exec('java -cp ":lib/*" MailTest otp', function (error, stdout, stderr) {
+                child = exec('java -cp ":lib/*" Main otp', function (error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log ('stderr: ' + stderr);
 			
