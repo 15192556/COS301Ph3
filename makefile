@@ -1,5 +1,5 @@
-make: sendMail.java  MailTest.java
-	javac -cp ":lib/*" sendMail.java MailTest.java
+make: sendMail.java  auditLogs.java Main.java
+	javac -cp ":lib/*" sendMail.java auditLogs.java Main.java
 
 run:
-	java -cp ":lib/*" MailTest
+	java -cp ":lib/*" Main
