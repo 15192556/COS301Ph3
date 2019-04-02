@@ -20,6 +20,10 @@ app.use(express.json());
 
 app.post('/notify', function (req, res) {
         fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.subject + "\n" + req.body.message, (err) => {
+            if (err) {
+                console.log ('Error');
+            }
+            
             else {
                 var exec = require('child_process').exec, child;
                 child = exec('java -cp ":lib/*" MailTest notify', function (error, stdout, stderr) {
