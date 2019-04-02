@@ -1,10 +1,10 @@
 
 public class clientInfo {
 
-    private static string CLIENT_HASH_TABLE = "clients.txt";
+    private static String CLIENT_HASH_TABLE = "clients.txt";
     
     // Get email from Client Information System API. Parameters to be submitted are ClientID
-    public static String getEmail (string clientID) {
+    public static String getEmail (String clientID) {
         /* Psedocode 
             if (clientID is in the client hash table ("clients.txt"))
                 if (timestamp from this entry in the hash table is not older than 10 minutes)
@@ -24,7 +24,7 @@ public class clientInfo {
     }
     
     // Adds client to the hash table. The hash table will be stored in a text file and has a maximum of 10 entries, and records the clientID, email address and timestamp of insertion. If there is a collision, override the previous entry. The hash table is meant to act as a caching mechanism.
-    public void addClient (String clientID, string email) {
+    public void addClient (String clientID, String email) {
         
     }
     
