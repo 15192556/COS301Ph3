@@ -39,20 +39,15 @@ app.post('/otp', function (req, res) {
             }
             
             else {
-                const { spawn } = require ('child_process');
-                const ls = exec ('java -cp ":/lib/*" MailTest otp');
-                
-                ls.stdout.on('data', (data)=> {
-                    console.log (`stdout: $(data)`);
-                });
-                
-                ls.stderr.on('data', (data)=> {
-                    console.log (`stderr: $(data)`);
-                });
-                
-                ls.on('close', (code)=> {
-                    console.log (`child process exited with code $(code)`);
-                });
+                var exec = require('child_process').exec, child;
+		child = exec('java -cp ":lib/*" MailTest otp', function (error, stdout, stderr) {
+			console.log('stdout: ' + stdout);
+			console.log ('stderr: ' + stderr);
+			
+			if (error !== null) {
+				console.log ('exec error: ' + error);
+			}
+		});
             }
         });
         
