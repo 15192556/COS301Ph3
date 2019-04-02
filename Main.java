@@ -49,7 +49,7 @@ public class Main {
                 clientID = br.readLine();
                 subject = br.readLine();
                 
-                String message = null;
+                String message = "";
                 
                 String line = null;
                 
