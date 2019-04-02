@@ -51,7 +51,7 @@ public class sendMail
             multipart.addBodyPart (messageBodyPart);
             
             messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("/home/notif/COS301Ph3/fnb-logo.jpg");
+            DataSource fds = new FileDataSource("/home/notif/COS301Ph3/img/fnb-logo.jpg");
             
             messageBodyPart.setDataHandler (new DataHandler (fds));
             messageBodyPart.setHeader("Content-ID", "<image>");
