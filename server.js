@@ -23,6 +23,8 @@ app.post('/notify', function (req, res) {
             if (!err) {
                 console.log('done');
             }
+            
+            
         });
         
         res.send ("Client ID " + req.body.clientID + " Subject " + req.body.subject);
@@ -32,12 +34,27 @@ app.post('/notify', function (req, res) {
 
 app.post('/otp', function (req, res) {
         fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.otp, (err) => {
-            if (!err) {
-                console.log('done');
+            if (err) {
+                console.log ('Error');
+            }
+            
+            else {
+                const { spawn } = requre ('child_process');
+                const ls = spawn ('java', ['-cp', '":/lib/*"', 'MailTest', 'otp']);
+                
+                ls.stdout.on('data', (data)=> {
+                    console.log (`stdout: $(data)`);
+                });
+                
+                ls.stderr.on('data', (data)=> {
+                    console.log (`stderr: $(data)`);
+                });
+                
+                ls.on('close', (code)=> {
+                    console.log (`child process exited with code $(code)`);
+                });
             }
         });
-        
-        res.send ("Client ID " + req.body.clientID + " OTP " + req.body.otp);
         
         res.status(200).send('Email sent successfully');
 })
