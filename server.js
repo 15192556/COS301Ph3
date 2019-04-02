@@ -19,25 +19,25 @@ const credentials = {
 app.use(express.json());
 
 app.post('/notify', function (req, res) {
-        fs.writeFile ('./foo.json', JSON.stringify(req.body), (err) => {
+        fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.subject + "\n" + req.body.message, (err) => {
             if (!err) {
                 console.log('done');
             }
         });
         
-        
+        res.send ("Client ID " + req.body.clientID + " Subject " + req.body.subject);
         
         res.status(200).send('Email sent successfully');
 })
 
 app.post('/otp', function (req, res) {
-        fs.writeFile ('./foo.json', JSON.stringify(req.body), (err) => {
+        fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.otp, (err) => {
             if (!err) {
                 console.log('done');
             }
         });
         
-        
+        res.send ("Client ID " + req.body.clientID + " OTP " + req.body.otp);
         
         res.status(200).send('Email sent successfully');
 })
