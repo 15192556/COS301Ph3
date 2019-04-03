@@ -20,26 +20,54 @@ app.use(express.json());
 
 app.post('/notify', function (req, res) {
         fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.subject + "\n" + req.body.message, (err) => {
-            if (!err) {
-                console.log('done');
+            if (err) {
+                console.log ('Error');
             }
+            
+            else {
+                var exec = require('child_process').exec, child;
+                child = exec('java -cp ":lib/*" Main notify', function (error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log ('stderr: ' + stderr);
+			
+                    if (error !== null) {
+                        console.log ('exec error: ' + error);
+                        res.status(400).send('Email failed ' + error);
+                    }
+                    
+                    else {
+                        res.status(200).send('Email sent successfully');
+                    }
+                });
+            }
+            
+            
         });
-        
-        res.send ("Client ID " + req.body.clientID + " Subject " + req.body.subject);
-        
-        res.status(200).send('Email sent successfully');
 })
 
 app.post('/otp', function (req, res) {
         fs.writeFile ('./input.txt', req.body.clientID + "\n" + req.body.otp, (err) => {
-            if (!err) {
-                console.log('done');
+            if (err) {
+                console.log ('Error');
+            }
+            
+            else {
+                var exec = require('child_process').exec, child;
+                child = exec('java -cp ":lib/*" Main otp', function (error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log ('stderr: ' + stderr);
+			
+                    if (error !== null) {
+                        console.log ('exec error: ' + error);
+                        res.status(400).send('Email failed' + error);
+                    }
+                    
+                    else {
+                        res.status(200).send('Email sent successfully');
+                    }
+                });
             }
         });
-        
-        res.send ("Client ID " + req.body.clientID + " OTP " + req.body.otp);
-        
-        res.status(200).send('Email sent successfully');
 })
 
 app.use((req, res) => {
