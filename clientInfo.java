@@ -1,9 +1,11 @@
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import org.json.simple.parser.*;
+import org.json.simple.JSONObject;
 
 public class clientInfo {
 
@@ -25,31 +27,54 @@ public class clientInfo {
                 add new entry to hash table and override the previous entry if there is a collision
                 return address
         */
-        int clientIDHash = clientInfo.hashFunction(clientID);
-        String hashClientID = /*clients.txt(clientIDHash)*/;
+        /*int clientIDHash = clientInfo.hashFunction(clientID);
+        String hashClientID = /*clients.txt(clientIDHash);
         LocalDateTime currTime = LocalDateTime.now();
         if (hashClientID == clientID)
         {
-            if (currTime.minusMinutes(10) < /*clients.txt(clientIDHash).time*/)
+            if (currTime.minusMinutes(10) < clients.txt(clientIDHash).time)
             {
-                return /*clients.txt(clientIDHash).email*/;
+                //return clients.txt(clientIDHash).email;
             }
-        }
+        }*/
 
         try
         {
             URL apiMethod = new URL("https://cos301-ocean-cis-api.herokuapp.com/email");
             HttpURLConnection apiCall = (HttpURLConnection) apiMethod.openConnection();
             apiCall.setRequestMethod("POST");
+            apiCall.setDoOutput (true);
+            apiCall.setDoInput (true);
             String JSONBody = "{\"system\":\"NS\",\"client_id\":\"" + clientID + "\"}";
             byte[] out = JSONBody.getBytes(StandardCharsets.UTF_8);
             int bodyLength = out.length;
 
             apiCall.setFixedLengthStreamingMode(bodyLength);
             apiCall.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            apiCall.connect();
+            
             apiCall.getOutputStream().write(out);
-            apiCall.getInputStream();//the response
+            apiCall.connect();
+            
+            Reader in = new BufferedReader (new InputStreamReader(apiCall.getInputStream(), "UTF-8"));
+            
+            StringBuilder sb = new StringBuilder();
+            
+            for (int c; (c = in.read()) >= 0; )
+                sb.append((char)c);
+            
+            String response = sb.toString();
+            
+            
+            try {
+                JSONParser parser = new JSONParser();
+            
+                JSONObject json = (JSONObject) parser.parse(response);
+                return (String) json.get("email");
+            }
+            
+            catch (ParseException p) {
+                return "";
+            }
             /*
             not sure on the format of the response ect. so not sure how to split it up into "clientID" and "email"
             add new entry to hash table and override the previous entry if there is a collision

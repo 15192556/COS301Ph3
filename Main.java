@@ -11,71 +11,73 @@ public class Main {
         // Get client email address
         // Send email
         // Return HTTP status code and description
-    
-        if (args[0].equals("otp")) {
-            String clientID = null;
-            String otp = null;
-            
-            try {
-                BufferedReader br = new BufferedReader (new FileReader ("input.txt"));
-                
-                clientID = br.readLine();
-                otp = br.readLine();
-                
-                br.close();
-                
-                if (clientID != null && otp != null) {
-                    String email = clientInfo.getEmail (clientID);
-                    
-                    sendMail.send (email, "FNB OTP","Your OTP is " + otp); 
-                }
-            }
-            catch (FileNotFoundException ex) {
-                
-            }
-            
-            catch (IOException ex) {
-            
-            }
-        }
         
-        else if (args[0].equals("notify")) {
-            String clientID = null;
-            String subject = null;
-            
-            try {
-                BufferedReader br = new BufferedReader (new FileReader ("input.txt"));
+        if (args.length > 0) {
+            if (args[0].equals("otp")) {
+                String clientID = null;
+                String otp = null;
                 
-                clientID = br.readLine();
-                subject = br.readLine();
-                
-                String message = "";
-                
-                String line = null;
-                
-                while ((line = br.readLine()) != null) {
-                    message += ("\n" + line);
-                }
-                
-                br.close();
-                
-                if (clientID != null && subject != null) {
-                    String email = clientInfo.getEmail (clientID);
+                try {
+                    BufferedReader br = new BufferedReader (new FileReader ("input.txt"));
                     
-                    sendMail.send (email, subject, message); 
+                    clientID = br.readLine();
+                    otp = br.readLine();
+                    
+                    br.close();
+                    
+                    if (clientID != null && otp != null) {
+                        String email = clientInfo.getEmail (clientID);
+                        
+                        sendMail.send (email, "FNB OTP","Your OTP is " + otp); 
+                    }
+                }
+                catch (FileNotFoundException ex) {
+                    
+                }
+                
+                catch (IOException ex) {
+                
                 }
             }
-            catch (FileNotFoundException ex) {
+            
+            else if (args[0].equals("notify")) {
+                String clientID = null;
+                String subject = null;
                 
-            }
-            
-            catch (IOException ex) {
-            
+                try {
+                    BufferedReader br = new BufferedReader (new FileReader ("input.txt"));
+                    
+                    clientID = br.readLine();
+                    subject = br.readLine();
+                    
+                    String message = "";
+                    
+                    String line = null;
+                    
+                    while ((line = br.readLine()) != null) {
+                        message += ("\n" + line);
+                    }
+                    
+                    br.close();
+                    
+                    if (clientID != null && subject != null) {
+                        String email = clientInfo.getEmail (clientID);
+                        
+                        sendMail.send (email, subject, message); 
+                    }
+                }
+                catch (FileNotFoundException ex) {
+                    
+                }
+                
+                catch (IOException ex) {
+                
+                }
             }
         }
         
         else {
-            
+            System.out.println (clientInfo.getEmail ("71"));
         }
         
         
