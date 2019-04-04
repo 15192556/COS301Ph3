@@ -9,25 +9,41 @@ import org.json.simple.JSONObject;
 
 public class auditLogs {
     private static String LOG_FILE = "logs.txt";
-    private int count = 0;
     // Adds timestamp, clientID and description to the log file ("logs.txt")
-    public static void addLog (String clientID, String descr) {
-		String Log;
-        // Generate timestamp
-		long unixTime = new Date.getTime()/1000L;
-		int Code = descr.substring(0,3);
-		int description = descr.substring(6);
-        // Add timestamp, clientID and description to log file
-		BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE));
-		if (count == 0)
-			Log = '{"system=NS", "data" = [{"Date":'+unixTime+',"ClientID":'+clientID+',"Code":'+Code+',"Description":'+description+'},';
-		else if (count == 99)
-			Log = '{"Date":'+unixTime+',"ClientID":'+clientID+',"Code":'+Code+',"Description":'+description+'}]}';
-		else
-			Log = '{"Date":'+unixTime+',"ClientID":'+clientID+',"Code":'+Code+',"Description":'+description+'},';
-		writer.write(Log);
-		writer.newLine();
-		writer.close();
+    public static void addLog (String clientID, int code, String descr) throws IOException {
+        
+        try { 
+  
+            // Open given file in append mode. 
+            File file = new File("logs.txt"); 
+  
+            BufferedReader br = new BufferedReader(new FileReader(file)); 
+            
+            int count = Integer.parseInt (br.readLine());
+            
+            
+    
+            String Log;
+            // Generate timestamp
+            long unixTime = System.currentTimeMillis();
+            int Code = code;
+            String description = descr;
+            // Add timestamp, clientID and description to log file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE, true));
+            if (count == 0)
+                Log = "{[{\"timestamp\":" + unixTime +",\"clientID\":\"" + clientID + "\",\"code\":" + Code + ",\"description\":\"" + description +"\"},\n";
+            else if (count == 99)
+                Log = "{\"timestamp\":" + unixTime + ",\"clientID\":\"" + clientID + "\",\"code\":" + Code + ",\"description\":\"" + description + "\"}]}\n";
+            else
+                Log = "{\"timestamp\":" + unixTime + ",\"clientID\":\"" + clientID +"\",\"code\":"  + Code+",\"description\":\"" + description +"\"},";
+            writer.write(Log);
+            writer.newLine();
+            writer.close();
+		}
+		
+		catch (IOException e) { 
+            System.out.println("exception occoured" + e); 
+        } 
 	}
     // pushToReporting() pushes logs to Reporting subsystem every 25 logs that have been logged or every 1 hour
     public static void pushToReporting () {

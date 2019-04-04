@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.*;
 
 public class sendMail 
 {
@@ -62,16 +63,30 @@ public class sendMail
             
             Transport.send(message);
             // Log successful sent message
-			auditLogs.addLog(clientID, "250 - Email sent successfully");
+            
+            try {
+			auditLogs.addLog(clientID, 250, "Email sent successfully");
+			}
+			
+			catch (IOException i) {
+			
+			}
             
             //JOptionPane.showMessageDialog(null,"Email sent");
             
         } catch (MessagingException e) 
         {   
-            System.out.println ("did you work?");
             //JOptionPane.showMessageDialog(null,"Something went wrong");
             // Log failed sent message
-			auditLogs.addLog(clientID, e);
+            
+            try {
+			auditLogs.addLog(clientID, 510, "Email address does not exist");
+			}
+			catch (IOException i) {
+			
+			}
+            
+			
             // Write error message to JSON file, to be returned with HTML status code to client
             
             throw new RuntimeException(e);
