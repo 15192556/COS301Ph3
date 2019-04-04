@@ -6,13 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
+import java.util.Scanner;
 
 public class clientInfo {
 
-    private static String CLIENT_HASH_TABLE = "clients.txt";
+    private static String CLIENT_TABLE = "clients.txt";
 
     // Get email from Client Information System API. Parameters to be submitted are ClientID
-    public static String getEmail (String clientID) {
+    public static String getEmail (String clientID) throws FileNotFoundException {
         /* Pseudocode
             if (clientID is in the client hash table ("clients.txt"))
                 if (timestamp from this entry in the hash table is not older than 10 minutes)
@@ -37,74 +38,168 @@ public class clientInfo {
                 //return clients.txt(clientIDHash).email;
             }
         }*/
-
-        try
-        {
-            URL apiMethod = new URL("https://cos301-ocean-cis-api.herokuapp.com/email");
-            HttpURLConnection apiCall = (HttpURLConnection) apiMethod.openConnection();
-            apiCall.setRequestMethod("POST");
-            apiCall.setDoOutput (true);
-            apiCall.setDoInput (true);
-            String JSONBody = "{\"system\":\"NS\",\"client_id\":\"" + clientID + "\"}";
-            byte[] out = JSONBody.getBytes(StandardCharsets.UTF_8);
-            int bodyLength = out.length;
-
-            apiCall.setFixedLengthStreamingMode(bodyLength);
-            apiCall.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            
-            apiCall.getOutputStream().write(out);
-            apiCall.connect();
-            
-            Reader in = new BufferedReader (new InputStreamReader(apiCall.getInputStream(), "UTF-8"));
-            
-            StringBuilder sb = new StringBuilder();
-            
-            for (int c; (c = in.read()) >= 0; )
-                sb.append((char)c);
-            
-            String response = sb.toString();
-            
-            
-            try {
-                JSONParser parser = new JSONParser();
-            
-                JSONObject json = (JSONObject) parser.parse(response);
-                return (String) json.get("email");
-            }
-            
-            catch (ParseException p) {
-                return "";
-            }
-            /*
-            not sure on the format of the response ect. so not sure how to split it up into "clientID" and "email"
-            add new entry to hash table and override the previous entry if there is a collision
-            return address
-            * */
-
-        }
-        catch(MalformedURLException e)
-        {/*if we are here, the apiMethod variable has been initialised wrong*/}
-        catch(IOException e)
-        {/*
-            thrown by:
-            apiMethod.openConnection()
-            apiCall.setRequestMethod() [presumably, PotocolExeption inherits from IOException
-            apiCall.connect()
-            apiCall.getOutPutStream()
-            apiCall.getInputStream()
-
-        */}
-
-        return "u16050607@tuks.co.za";
+        
+        return checkTable (clientID);
     }
 
     // Adds client to the hash table. The hash table will be stored in a text file and has a maximum of 10 entries, and records the clientID, email address and timestamp of insertion. If there is a collision, override the previous entry. The hash table is meant to act as a caching mechanism.
-    public static void addClient (String clientID, String email) {
-
+    private static String checkTable (String clientID) throws FileNotFoundException {
+        File text = new File (CLIENT_TABLE);
+        
+        Scanner sc = new Scanner (text);
+        
+        String old = "";
+        
+        String email = "";
+        
+        boolean found = false;
+        
+        int lines = 0;
+        
+        if (!sc.hasNext()) {
+            email = apiCall(clientID);
+            old = clientID + "\t" + ((long) System.currentTimeMillis()) + "\t" + email;
+        }
+        
+        else {
+            while (sc.hasNext()) {
+                String id = sc.next();
+                long epoch = System.currentTimeMillis();
+                
+                if (id.equals(clientID)) {
+                    long stamp = sc.nextLong();
+                    
+                    //long epoch = System.currentTimeMillis()/1000;
+                    
+                    if (((epoch - stamp) / 60000) >= 10) {
+                        email = apiCall (clientID);
+                        
+                        old = clientID + "\t" + epoch + "\t" + email + "\n" + old;
+                        lines++;
+                        
+                        found = true;
+                    }
+                    
+                    else {
+                        //long temp = sc.nextLong();
+                        email = sc.next();
+                    
+                        old = id + "\t" + stamp + "\t" + email + "\n" + old;
+                        lines++;
+                        
+                        while (sc.hasNext()) {
+                            old += sc.nextLine() + "\n";
+                        }
+                        
+                        found = true;
+                    }
+                }
+                
+                else {
+                    if (!found) {
+                        if (lines < 10) {
+                            old += id + "\t" + sc.nextLine() + "\n";
+                            lines++;
+                        }
+                        
+                        else {
+                            email = apiCall (clientID);
+                            old = clientID + "\t" + epoch + "\t" + email + "\n" + old;
+                        }
+                    }
+                    
+                    else {
+                        old += id + "\t" + sc.nextLine() + "\n";
+                            lines ++;
+                    }
+                }
+            }
+        }
+        
+        sc.close();
+        
+        try {
+            BufferedWriter writer = new BufferedWriter( new FileWriter( "clients.txt"));
+            writer.write( old );
+            // do stuff 
+            writer.close();
+            
+            return email;
+        }
+        
+        catch (IOException i) {
+        
+        }
+        
+        return email;
     }
+    
+    private static String apiCall (String clientID) {
+        try
+            {
+                URL apiMethod = new URL("https://cos301-ocean-cis-api.herokuapp.com/email");
+                HttpURLConnection apiCall = (HttpURLConnection) apiMethod.openConnection();
+                apiCall.setRequestMethod("POST");
+                apiCall.setDoOutput (true);
+                apiCall.setDoInput (true);
+                String JSONBody = "{\"system\":\"NS\",\"client_id\":\"" + clientID + "\"}";
+                byte[] out = JSONBody.getBytes(StandardCharsets.UTF_8);
+                int bodyLength = out.length;
 
-    // Calculates the hash value derived from the clientID. Since the hash table has a maximum of 10 entries, the hash function will return integers 0 to 9
-    public static int hashFunction (String clientID) {
-        return 0;
+                apiCall.setFixedLengthStreamingMode(bodyLength);
+                apiCall.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                
+                apiCall.getOutputStream().write(out);
+                apiCall.connect();
+                
+                Reader in = new BufferedReader (new InputStreamReader(apiCall.getInputStream(), "UTF-8"));
+                
+                StringBuilder sb = new StringBuilder();
+                
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char)c);
+                
+                String response = sb.toString();
+                
+                
+                try {
+                    JSONParser parser = new JSONParser();
+                
+                    JSONObject json = (JSONObject) parser.parse(response);
+                    return (String) json.get("email");
+                }
+                
+                catch (ParseException p) {
+                    System.err.println ("Client does not exist");
+                    throw new RuntimeException ();
+                }
+                /*
+                not sure on the format of the response ect. so not sure how to split it up into "clientID" and "email"
+                add new entry to hash table and override the previous entry if there is a collision
+                return address
+                * */
+
+            }
+            catch(MalformedURLException e)
+            {
+                System.err.println ("Client information offline");
+                throw new RuntimeException ();
+            }
+            
+            catch(IOException e)
+            {/*
+                thrown by:
+                apiMethod.openConnection()
+                apiCall.setRequestMethod() [presumably, PotocolExeption inherits from IOException
+                apiCall.connect()
+                apiCall.getOutPutStream()
+                apiCall.getInputStream()*/
+                
+                System.err.println ("Client information offline");
+                throw new RuntimeException ();
+
+            }
+
+            //return "u16050607@tuks.co.za";
     }
 }

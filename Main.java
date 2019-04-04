@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 public class Main {
-    public static void main (String[] args) {
+    public static void main (String[] args) throws FileNotFoundException {
         // Parse input file
         // Get client email address
         // Send email
@@ -77,7 +77,7 @@ public class Main {
         }
         
         else {
-            System.out.println (clientInfo.getEmail ("71"));
+            System.out.println (clientInfo.getEmail ("7721"));
         }
         
         
