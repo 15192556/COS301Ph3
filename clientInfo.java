@@ -73,6 +73,7 @@ public class clientInfo {
                     
                     if (((epoch - stamp) / 60000) >= 10) {
                         email = apiCall (clientID);
+                        sc.next();
                         
                         old = clientID + "\t" + epoch + "\t" + email + "\n" + old;
                         lines++;
