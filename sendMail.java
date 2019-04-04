@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart;
 public class sendMail 
 {
 
-    public static void send(String to, String subject, String msg/*, final String user, final String pass*/) 
+    public static void send(String clientID, String to, String subject, String msg/*, final String user, final String pass*/) 
     {
         Properties props = System.getProperties();
 
@@ -62,6 +62,7 @@ public class sendMail
             
             Transport.send(message);
             // Log successful sent message
+			auditLogs.addLog(clientID, "250 - Email sent successfully");
             
             //JOptionPane.showMessageDialog(null,"Email sent");
             
@@ -70,6 +71,7 @@ public class sendMail
             System.out.println ("did you work?");
             //JOptionPane.showMessageDialog(null,"Something went wrong");
             // Log failed sent message
+			auditLogs.addLog(clientID, e);
             // Write error message to JSON file, to be returned with HTML status code to client
             
             throw new RuntimeException(e);

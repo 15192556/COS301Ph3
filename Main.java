@@ -28,7 +28,7 @@ public class Main {
                     if (clientID != null && otp != null) {
                         String email = clientInfo.getEmail (clientID);
                         
-                        sendMail.send (email, "FNB OTP","Your OTP is " + otp); 
+                        sendMail.send (clientID, email, "FNB OTP","Your OTP is " + otp); 
                     }
                 }
                 catch (FileNotFoundException ex) {
@@ -63,7 +63,7 @@ public class Main {
                     if (clientID != null && subject != null) {
                         String email = clientInfo.getEmail (clientID);
                         
-                        sendMail.send (email, subject, message); 
+                        sendMail.send (clientID, email, subject, message); 
                     }
                 }
                 catch (FileNotFoundException ex) {
