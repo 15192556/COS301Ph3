@@ -1,1 +1,11 @@
 0
+{[{"timestamp":1554412453341,"clientID":"7371","code":250,"description":"Email sent successfully"},
+
+{[{"timestamp":1554412486585,"clientID":"7371","code":250,"description":"Email sent successfully"},
+
+{[{"timestamp":1554412568884,"clientID":"x","code":510,"description":"Email address does not exist"},
+
+{[{"timestamp":1554412688653,"clientID":"x","code":510,"description":"Email address does not exist"},
+
+{[{"timestamp":1554412735366,"clientID":"x","code":510,"description":"Email address does not exist"},
+{[{"timestamp":1554412787791,"clientID":"7371","code":250,"description":"Email sent successfully"},

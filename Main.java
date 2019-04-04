@@ -77,7 +77,7 @@ public class Main {
         }
         
         else {
-            System.out.println (clientInfo.getEmail ("71"));
+            auditLogs.pushToReporting ();
         }
         
         

@@ -32,7 +32,7 @@ app.post('/notify', function (req, res) {
 			
                     if (error !== null) {
                         console.log ('exec error: ' + error);
-                        res.status(400).send('Email failed ' + error);
+                        res.status(400).send('Email failed');
                     }
                     
                     else {
@@ -59,7 +59,7 @@ app.post('/otp', function (req, res) {
 			
                     if (error !== null) {
                         console.log ('exec error: ' + error);
-                        res.status(400).send('Email failed' + error);
+                        res.status(400).send('OTP failed to send';
                     }
                     
                     else {
