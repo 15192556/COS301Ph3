@@ -1,4 +1,4 @@
-import java.io.*;
+/*import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -107,4 +107,4 @@ public class clientInfo {
     public static int hashFunction (String clientID) {
         return 0;
     }
-}
+}*/
