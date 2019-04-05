@@ -3,9 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.maven.project1.cos301.phase3.COS301Ph3
-
--master (1);
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,12 +42,12 @@ public class sendMailTest {
     @Test
     public void testSend() {
         System.out.println("send");
-        String to = "";
-        String subject = "";
-        String msg = "";
+        String to = "u16050607@tuks.co.za";
+        String subject = "Greeting";
+        String msg = "hello world";
         sendMail.send(to, subject, msg);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Message not sent.");
     }
     
 }
