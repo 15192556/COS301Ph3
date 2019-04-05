@@ -4,8 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import org.json.simple.parser.*;
-import org.json.simple.JSONObject;
+//import org.json.simple.parser.*;
+//import org.json.simple.JSONObject;
 
 public class auditLogs {
     private static String LOG_FILE = "logs/logs.txt";
