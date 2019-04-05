@@ -3,9 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.maven.project1.cos301.phase3.COS301Ph3
-
--master (1);
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,11 +42,11 @@ public class auditLogsTest {
     @Test
     public void testAddLog() {
         System.out.println("addLog");
-        String clientID = "";
-        String descr = "";
+        String clientID = "7371";
+        String descr = "Notification sent";
         auditLogs.addLog(clientID, descr);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Notification not sent.");
     }
 
     /**
@@ -60,7 +57,7 @@ public class auditLogsTest {
         System.out.println("pushToReporting");
         auditLogs.pushToReporting();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Could not push to reporting.");
     }
     
 }
