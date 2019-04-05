@@ -1,11 +1,11 @@
-/*import java.io.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import org.json.simple.parser.*;
-import org.json.simple.JSONObject;
+//import org.json.simple.parser.*;
+//import org.json.simple.JSONObject;
 
 public class clientInfo {
 
@@ -107,4 +107,4 @@ public class clientInfo {
     public static int hashFunction (String clientID) {
         return 0;
     }
-}*/
+}
