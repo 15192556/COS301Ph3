@@ -3,9 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.maven.project1.cos301.phase3.COS301Ph3
-
--master (1);
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,12 +42,12 @@ public class clientInfoTest {
     @Test
     public void testGetEmail() {
         System.out.println("getEmail");
-        String clientID = "";
-        String expResult = "";
+        String clientID = "7371";
+        String expResult = "u16050607@tuks.co.za";
         String result = clientInfo.getEmail(clientID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Client not found.");
     }
 
     /**
@@ -59,11 +56,11 @@ public class clientInfoTest {
     @Test
     public void testAddClient() {
         System.out.println("addClient");
-        String clientID = "";
-        String email = "";
+        String clientID = "9999";
+        String email = "tlotliona@gmail.com";
         clientInfo.addClient(clientID, email);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Client not added.");
     }
 
     /**
@@ -72,12 +69,12 @@ public class clientInfoTest {
     @Test
     public void testHashFunction() {
         System.out.println("hashFunction");
-        String clientID = "";
+        String clientID = "7371";
         int expResult = 0;
         int result = clientInfo.hashFunction(clientID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Not expected result.");
     }
     
 }
